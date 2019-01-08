@@ -30,7 +30,7 @@ public class User implements Serializable {
 		super();
 		this.id = id;
 		this.email = email;
-		this.name = name;
+		this.name = name;		
 	}
 
 	public String getId() {
