@@ -7,30 +7,40 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taian.worshopmongo.domain.Post;
+import com.taian.worshopmongo.resources.util.URL;
 import com.taian.worshopmongo.services.PostService;
 
 @RestController
-@RequestMapping(value="/posts")
+@RequestMapping(value = "/posts")
 public class PostResource {
 
 	@Autowired
 	private PostService service;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Post>> findAll(){
+	public ResponseEntity<List<Post>> findAll() {
 		List<Post> obj = service.findAll();
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Post> findById(@PathVariable String id){
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Post> findById(@PathVariable String id) {
 		Post obj = service.findByid(id);
 		return ResponseEntity.ok().body(obj);
 	}
-			
-			
+
+	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) {
+
+		text = URL.decodeParam(text);
+
+		List<Post> list = service.findByTitle(text);
+
+		return ResponseEntity.ok().body(list);
+
+	}
 }
