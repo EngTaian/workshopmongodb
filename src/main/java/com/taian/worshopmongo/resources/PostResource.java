@@ -43,4 +43,15 @@ public class PostResource {
 		return ResponseEntity.ok().body(list);
 
 	}
+	
+	@RequestMapping(value = "/titlesearchjson", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findByTitleJSon(@RequestParam(value = "text", defaultValue = "") String text) {
+
+		text = URL.decodeParam(text);
+
+		List<Post> list = service.findByTitle(text);
+
+		return ResponseEntity.ok().body(list);
+
+	}
 }
